@@ -5,6 +5,20 @@ var openWeatherMap = require('openWeatherMap');
 var ErrorModal = require('ErrorModal');
 
 var Weather = React.createClass({
+  componentDidMount (){
+    var location = this.props.location.query.location;
+    if (location && location.length > 0) {
+      this.handleSearch(location);
+      window.location.hash= '#/';
+    }
+  },
+  componentWillReceiveProps (newProps) {
+    var location = newProps.location.query.location;
+    if (location && location.length > 0) {
+      this.handleSearch(location);
+      window.location.hash= '#/';
+    }
+  },
   getInitialState: function () {
     return {
       isLoading: false
@@ -25,7 +39,9 @@ var Weather = React.createClass({
     }, (error) => {
       this.setState({
         isLoading: false,
-        errorMessage: error.message
+        errorMessage: error.message,
+        location: undefined,
+        temp: undefined
       })
     })
   },
